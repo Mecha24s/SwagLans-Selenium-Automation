@@ -74,5 +74,11 @@ public class InventoryPage extends BasePage{
     public void clickCartIcon(){
         actions.click(cartIconLocator);
     }
+    public String getButtonText(String productName){
+        By productButtonLocator=By.xpath(
+                "//div[contains(.,'" + productName +
+                        "')]/ancestor::div[@class='inventory_item']//button");
+        return actions.getText(productButtonLocator);
+    }
 
 }
