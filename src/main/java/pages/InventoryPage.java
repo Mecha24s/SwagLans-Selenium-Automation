@@ -49,4 +49,13 @@ public class InventoryPage extends BasePage{
         By removeItemByNameLocator=By.xpath("//div[contains(.,'" + productName +"')]/ancestor::div[@class='inventory_item']//button[text()='Remove']");
         actions.click(removeItemByNameLocator);
     }
+    public double getProductPrice(String productName){
+        By priceLocator=By.xpath(
+                "//div[contains(.,'" + productName +
+                        "')]/ancestor::div[@class='inventory_item']//div[@class='inventory_item_price']"
+        );
+        String priceText = actions.getText(priceLocator);
+        return Double.parseDouble(priceText.replace("$",""));
+
+    }
 }
