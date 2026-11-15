@@ -58,4 +58,5 @@ public class InventoryPage extends BasePage{
         return Double.parseDouble(priceText.replace("$",""));
 
     }
+
 }
