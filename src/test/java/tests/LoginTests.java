@@ -11,8 +11,7 @@ import utilities.DataDriven;
 import java.util.Map;
 
 public class LoginTests extends BaseTests {
-    private Map<String,Object> loginData;
-    private Map<String,Object> validLogin;
+
     private Map<String,Object> invalidLogin;
     private Map<String,Object> emptyPassLogin;
     private Map<String,Object> wrongPassAndUserLogin;
