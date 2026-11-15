@@ -12,18 +12,18 @@ public class CheckoutOverviewPage extends BasePage{
         super(driver);
     }
 
-    public double getProductsTotal() {
-        double total = 0;
-
-        int numberOfProducts = actions.countElements(itemPriceLocator);
-
-        for (int i = 0; i < numberOfProducts; i++) {
-            String price = driver.findElements(itemPriceLocator).get(i).getText();
-            total += Double.parseDouble(price.replace("$", ""));
-        }
-
-        return total;
-    }
+//    public double getProductsTotal() {
+//        double total = 0;
+//
+//        int numberOfProducts = actions.countElements(itemPriceLocator);
+//
+//        for (int i = 0; i < numberOfProducts; i++) {
+//            String price = driver.findElements(itemPriceLocator).get(i).getText();
+//            total += Double.parseDouble(price.replace("$", ""));
+//        }
+//
+//        return total;
+//    }
     public double getTotalPrice(){
         String totalPrice=actions.getText(itemTotalLocator);
         return  Double.parseDouble(totalPrice.replace("Item total: $",""));

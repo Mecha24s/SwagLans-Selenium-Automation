@@ -9,6 +9,8 @@ public class InventoryPage extends BasePage{
     private final By socialMediaXLocator=By.cssSelector("[data-test='social-x']");
     private final By socialLinkedInLocator=By.cssSelector("[data-test='social-linkedin']");
     private final By socialFacebookLocator=By.cssSelector("[data-test='social-facebook']");
+    private final By sideTabLocator= By.id("react-burger-menu-btn");
+    private final By logoutLinkLocator=By.id("logout_sidebar_link");
 
 
     public InventoryPage(WebDriver driver){
@@ -79,6 +81,12 @@ public class InventoryPage extends BasePage{
                 "//div[contains(.,'" + productName +
                         "')]/ancestor::div[@class='inventory_item']//button");
         return actions.getText(productButtonLocator);
+    }
+    public void clickSideTab(){
+        actions.click(sideTabLocator);
+    }
+    public void clickLogoutLink(){
+        actions.click(logoutLinkLocator);
     }
 
 }

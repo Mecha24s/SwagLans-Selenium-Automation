@@ -1,0 +1,1 @@
+{"uuid":"eddd5024-16a9-4b78-84ee-11f37f961856","name":"tests.CartTests.loginSetup","children":["e7cedcd6-69bd-4e77-a908-3e517f24f18f"],"description":"","befores":[{"name":"loginSetup","status":"passed","stage":"finished","description":"","steps":[],"attachments":[],"parameters":[],"start":1794768197824,"stop":1794768198082}],"afters":[],"start":1794768197824,"stop":1794768198082}

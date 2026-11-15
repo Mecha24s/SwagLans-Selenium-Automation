@@ -5,9 +5,7 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-import pages.CartPage;
-import pages.InventoryPage;
-import pages.LoginPage;
+import pages.*;
 import utilities.DataDriven;
 
 import java.util.List;
@@ -17,13 +15,20 @@ public class CartTests extends BaseTests {
     private LoginPage loginPage;
     private InventoryPage inventoryPage;
     private CartPage cartPage;
+    private CheckoutOverviewPage checkoutOverviewPage;
+    private CheckoutInfoPage checkoutInfoPage;
     private Map<String,Object>cartData;
     private List<String> cartProducts;
+    private Map<String, Object> checkoutData;
+    private Map<String, Object> validCheckout;
 
     @BeforeClass
     public void dataSetup(){
         cartData=DataDriven.readJson("testData/cartData.json");
         cartProducts=(List<String>) cartData.get("cartProducts");
+
+        checkoutData = DataDriven.readJson("testData/checkoutData.json");
+        validCheckout = (Map<String, Object>) checkoutData.get("validCheckout");
     }
     @BeforeMethod
     public void loginSetup() {
@@ -35,6 +40,9 @@ public class CartTests extends BaseTests {
 
         inventoryPage = new InventoryPage(driver);
         cartPage = new CartPage(driver);
+        checkoutInfoPage= new CheckoutInfoPage(driver);
+        checkoutOverviewPage= new CheckoutOverviewPage(driver);
+
 
     }
     @Test
@@ -81,6 +89,62 @@ public class CartTests extends BaseTests {
                 inventoryPage.getButtonText("Sauce Labs Onesie"),
                 "Remove"
         );
+    }
+    @Test
+    public void verifyTotalPriceCalculation(){
+        double totalPrice=0;
+        for(String product:cartProducts) {
+            totalPrice+= inventoryPage.getProductPrice(product);
+            inventoryPage.addItem(product);
+
+        }
+        inventoryPage.clickCartIcon();
+        cartPage.clickCheckoutButton();
+
+        checkoutInfoPage.enterFirstName((String) validCheckout.get("firstName"));
+        checkoutInfoPage.enterLastName((String) validCheckout.get("lastName"));
+        checkoutInfoPage.enterZipCode((String) validCheckout.get("postalCode"));
+        checkoutInfoPage.clickContinue();
+        double actualTotalPrice=checkoutOverviewPage.getTotalPrice();
+        Assert.assertEquals(actualTotalPrice,totalPrice,0.01,
+                "Total price doesn't match items price");
+
+
+    }
+    @Test
+    public void emptyCartCheckout(){
+        inventoryPage.clickCartIcon();
+        int items=cartPage.countItemsInCart();
+        Assert.assertEquals(items,0,"Cart is not empty");
+        cartPage.clickCheckoutButton();
+        checkoutInfoPage.enterFirstName((String) validCheckout.get("firstName"));
+        checkoutInfoPage.enterLastName((String) validCheckout.get("lastName"));
+        checkoutInfoPage.enterZipCode((String) validCheckout.get("postalCode"));
+        checkoutInfoPage.clickContinue();
+        checkoutOverviewPage.clickFinish();
+        String url=driver.getCurrentUrl();
+        Assert.assertEquals(url, "https://www.saucedemo.com/checkout-complete.html",
+                "Checkout didn't proceed");
+
+    }
+    @Test
+    public void cartPersistenceCheck(){
+        for(String products:cartProducts){
+        inventoryPage.addItem(products);
+
+        }
+        inventoryPage.clickSideTab();
+        inventoryPage.clickLogoutLink();
+
+        loginPage.enterUsername((String)validLogin.get("username"));
+        loginPage.enterPassword((String) validLogin.get("password"));
+        loginPage.clickLoginButton();
+        inventoryPage.clickCartIcon();
+        List<String> actualItems= cartPage.getProductsNames();
+        Assert.assertEquals(actualItems,cartProducts);
+
+
+
     }
 
 
