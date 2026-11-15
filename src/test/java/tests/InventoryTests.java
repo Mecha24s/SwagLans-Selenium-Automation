@@ -23,10 +23,13 @@ public class InventoryTests extends BaseTests {
     public void checkSocialLinks(){
         String linkedInURL=inventoryPage.clickLinkedInIcon();
         Assert.assertTrue(linkedInURL.contains("linkedin"));
+
         String XUrl=inventoryPage.clickXIcon();
         Assert.assertTrue(XUrl.contains("x.com"));
+
         String FacebookUrl=inventoryPage.clickFacebookIcon();
         Assert.assertTrue(FacebookUrl.contains("facebook"));
+
     }
 
 

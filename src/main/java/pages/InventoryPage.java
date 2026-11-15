@@ -26,20 +26,33 @@ public class InventoryPage extends BasePage{
         }
 
     public String clickXIcon(){
+        String originalWindow=driver.getWindowHandle();
         actions.click(socialMediaXLocator);
         actions.switchToNewWindow();
-        return actions.getCurrentUrl();
+        String Url= actions.getCurrentUrl();
+        driver.close();
+        driver.switchTo().window(originalWindow);
+        return Url;
 
     }
     public String clickFacebookIcon(){
+        String originalWindow=driver.getWindowHandle();
         actions.click(socialFacebookLocator);
         actions.switchToNewWindow();
-        return actions.getCurrentUrl();
+        String Url= actions.getCurrentUrl();
+        driver.close();
+        driver.switchTo().window(originalWindow);
+        return Url;
+
     }
     public String clickLinkedInIcon(){
+        String originalWindow=driver.getWindowHandle();
         actions.click(socialLinkedInLocator);
         actions.switchToNewWindow();
-        return actions.getCurrentUrl();
+        String Url= actions.getCurrentUrl();
+        driver.close();
+        driver.switchTo().window(originalWindow);
+        return Url;
     }
     public void addItem(String productName){
         By addItemByNameLocator=By.xpath("//div[contains(.,'" + productName +"')]/ancestor::div[@class='inventory_item']//button[text()='Add to cart']");
@@ -57,6 +70,9 @@ public class InventoryPage extends BasePage{
         String priceText = actions.getText(priceLocator);
         return Double.parseDouble(priceText.replace("$",""));
 
+    }
+    public void clickCartIcon(){
+        actions.click(cartIconLocator);
     }
 
 }
